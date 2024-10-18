@@ -29,8 +29,8 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.fieldname === 'video') {
       cb(null, 'uploads/videos/'); // Store videos in 'uploads/videos/'
-    } else if (file.fieldname === 'pilotEvidence') {
-      cb(null, 'uploads/pilotEvidence/'); // Store pilot evidence in 'uploads/pilotEvidence/'
+    } else if (file.fieldname === 'ppt') {
+      cb(null, 'uploads/ppt/'); // Store pilot evidence in 'uploads/ppt/'
     } else {
       cb(new Error('Invalid field name'), null);
     }
@@ -47,42 +47,32 @@ const formDataSchema = new mongoose.Schema({
   representativeName: String,
   phoneNumber: String,
   email: String,
+  linkedin: String,
   teamMembers: String,
   idea: String,
-  isRegistered: String,
-  founders: String,
-  operationTime: String,
-  companyType: String,
-  hasTeam: String,
-  problemStatement: String,
-  uniqueProduct: String,
-  legalRequirements: String,
-  currentStage: String,
-  hasFunding: String,
-  fundingDetails: String,
-  hasAwards: String,
-  awardsDetails: String,
-  targetCustomers: String,
-  hasPrototype: String,
-  hasPilot: String,
-  pilotEvidence: String,
-  runway: String,
-  video: String,
-  paymentStatus: { type: Boolean, default: false }, // Added paymentStatus field
+  startuptype: String,
+  TargetIndustry: String,
+  revenue:String,
+  financialstatus:String,
+  burnrate:String,
+  approval:String,
+  specify:String,
+  funding:String,
+  mentorship:String,
+  ppt:String,
+  paymentStatus: { type: Boolean, default: false }, 
 
 });
 
 const FormData = mongoose.model('FormData', formDataSchema);
 
 app.post('/api/startup', upload.fields([
-  { name: 'pilotEvidence', maxCount: 1 },
-  { name: 'video', maxCount: 1 }
+  { name: 'ppt', maxCount: 1 },
 ]), async (req, res) => {
   try {
     const formData = new FormData({
       ...req.body,
-      pilotEvidence: req.files.pilotEvidence ? req.files.pilotEvidence[0].path : '',
-      video: req.files.video ? req.files.video[0].path : '',
+      ppt: req.files.ppt ? req.files.ppt[0].path : '',
     });
 
     await formData.save();
@@ -116,8 +106,7 @@ app.get('/api/registration-status', async (req, res) => {
   }
 });
 
-app.use('/uploads/videos', express.static(path.join(__dirname, 'uploads/videos')));
-app.use('/uploads/pilotEvidence', express.static(path.join(__dirname, 'uploads/pilotEvidence')));
+app.use('/uploads/ppt', express.static(path.join(__dirname, 'uploads/ppt')));
 
 
 
